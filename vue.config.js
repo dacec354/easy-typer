@@ -1,5 +1,3 @@
-const sitemapPlugin = require('sitemap-webpack-plugin').default
-
 const routes = [
   '/',
   '/practice',
@@ -13,16 +11,6 @@ const routes = [
   '/history',
   '/download'
 ]
-
-const sitemapRoutes = routes.concat([
-  '/buy-me-a-coffee',
-  '/portal',
-  '/portal/blog',
-  '/portal/docs/get-started',
-  '/portal/docs/changelog',
-  '/portal/docs/download',
-  '/portal/docs/intro'
-])
 
 const version = '(73)'
 process.env.VUE_APP_VERSION = require('./package.json').version
@@ -86,29 +74,8 @@ module.exports = {
       .use('raw-loader')
       .loader('raw-loader')
       .end()
-    config.plugin('sitemap').use(sitemapPlugin, [
-      {
-        base: 'https://typer.owenyang.top',
-        paths: sitemapRoutes,
-        options: {
-          filename: 'sitemap.xml',
-          lastMod: true,
-          changefreq: 'daily',
-          priority: 0.7
-        }
-      }
-    ])
   },
   productionSourceMap: false,
-  pluginOptions: {
-    prerenderSpa: {
-      registry: undefined,
-      renderRoutes: routes,
-      useRenderEvent: true,
-      headless: true,
-      onlyProduction: true
-    }
-  },
   devServer: {
     proxy: {
       '^/api': {
