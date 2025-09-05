@@ -345,7 +345,9 @@ export default class Reading extends Vue {
     this.init()
 
     db.bookShelf.get('books').then(books => {
-      this.loadBooks(books)
+      this.loadBooks(books || [])
+    }).catch(() => {
+      this.loadBooks([])
     })
   }
 
