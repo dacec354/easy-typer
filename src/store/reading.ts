@@ -23,7 +23,7 @@ const mutations: MutationTree<ReadingState> = {
   },
 
   loadBooks (state, books) {
-    state.books = books
+    state.books = books || []
   },
 
   updateProgress (state, words) {
@@ -48,9 +48,7 @@ const mutations: MutationTree<ReadingState> = {
 
 const actions: ActionTree<ReadingState, QuickTypingState> = {
   loadBooks ({ commit }, books) {
-    if (books) {
-      commit('loadBooks', books)
-    }
+    commit('loadBooks', books || [])
   },
   selectBook ({ commit, state }, id: string) {
     const bookConf = state.books.find(book => book.id === id)
