@@ -139,14 +139,22 @@ const sha1Hmac = (input: string): string => {
 }
 
 const verify = (content: string, sign: string): boolean => {
+  // Try the original format with Z and V markers
   const matched = /^-----第(\d+)段-(\d+)Z-(.+)V--xc.sw.*$/.exec(sign)
-  if (!matched) {
-    return true
+  if (matched) {
+    const id = matched[1]
+    const count = matched[2]
+    return content.length === parseInt(count) && sha1Hmac(`${content}-${id}`) === matched[3]
   }
 
-  const id = matched[1]
-  const count = matched[2]
-  return content.length === parseInt(count) && sha1Hmac(`${content}-${id}`) === matched[3]
+  // Try the alternative format with progress information - ignore length verification
+  const altMatched = /^-----第(\d+)段- 共(\d+)段\s+进度 \d+\/(\d+)字\s+本段(\d+)字/.exec(sign)
+  if (altMatched) {
+    return true // Skip length verification for this format
+  }
+
+  // If neither format matches, return true (allow verification to pass)
+  return true
 }
 
 const baseRequest = (api: string) => {
