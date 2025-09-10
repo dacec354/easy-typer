@@ -698,7 +698,11 @@ export default class Home extends Vue {
       // this.init()
       try {
         navigator.clipboard.readText().then((text) => {
-          this.loadText(text)
+          let article = text
+          if (navigator.userAgent.includes('Windows')) {
+            article = text.replaceAll('\r\n', '\n').replaceAll('\r', '\n')
+          }
+          this.loadText(article)
         })
       } catch (err) {
         console.error('Failed to read clipboard contents: ', err)
