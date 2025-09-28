@@ -728,7 +728,8 @@ export default class Home extends Vue {
 
       // Generate share text with current article content
       const hash = eapi.sha1Hmac(`${this.articleContent}-${this.articleIdentity}`)
-      const signature = `-----第${this.articleIdentity}段-共${this.articleContent.length}字-哈希${hash}--易跟打web发文`
+
+      const signature = `-----第${this.articleIdentity}段-${this.articleContent.length}Z-${hash}V--xc.sw`
       const articleText = `${this.articleTitle || '未知标题'}\n${this.articleContent}\n${signature}`
 
       // Copy to clipboard
